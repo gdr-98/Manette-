@@ -41,6 +41,10 @@ public class HitPlayer implements Listener {
 		map1.remove(uuid);
 	}
 
+	/*
+	 * Click dx su un player -> ammanetta in base all'effetto SLOW (se il player è
+	 * stato taserato non ammanetta). Versione con ammanettamento instant
+	 */
 	@EventHandler
 	public static boolean onPlayerRightClick(PlayerInteractAtEntityEvent event) {
 
