@@ -5,7 +5,7 @@ Features.
 
 Per ammanettare:
 
-    1) Sono necessari 2 secondi in cui il player non deve compiere movimenti lungo X e lungo Y.
+    1) Bisogna clickare col tasto destro su un player e sono necessari 2 secondi in cui il player non deve compiere movimenti lungo X e lungo Y.
 
 Dopo averlo ammanettato: 
 
