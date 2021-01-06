@@ -15,26 +15,20 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.User;
 
 import item.WatchManager;
-import main.Manette;
 
 public class HitPlayer implements Listener {
 
 	private static HashMap<UUID, Integer> map1 = new HashMap<UUID, Integer>();
-
-	private Manette plugin_istance;
-
-	public HitPlayer(Manette plugin) {
-		this.plugin_istance = plugin;
-	}
+	private static HashMap<UUID, Location> map2 = new HashMap<UUID, Location>();
 
 	private static void ammanetta(Player attacked) {
 		map1.put(attacked.getUniqueId(), attacked.getFoodLevel());
+		map2.put(attacked.getUniqueId(), attacked.getLocation());
 
 		attacked.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 999999999, 6));
 		attacked.setFoodLevel(6);
@@ -47,13 +41,8 @@ public class HitPlayer implements Listener {
 		map1.remove(uuid);
 	}
 
-	/*
-	 * Click dx su un player -> ammanetta in base all'effetto SLOW (se il player è
-	 * stato taserato non ammanetta). Versione con ammanettamento a tempo di 2s e
-	 * controllo ogni 500ms.
-	 */
 	@EventHandler
-	public boolean onPlayerRightClick(PlayerInteractAtEntityEvent event) {
+	public static boolean onPlayerRightClick(PlayerInteractAtEntityEvent event) {
 
 		Player attacker = event.getPlayer();
 
@@ -65,31 +54,9 @@ public class HitPlayer implements Listener {
 
 			if (!(attacked.hasPotionEffect(PotionEffectType.SLOW))) {
 
-				Location posizione = attacked.getLocation();
-
-				new BukkitRunnable() {
-
-					private int i = 0;
-
-					@Override
-					public void run() {
-						if (i > 4)
-							cancel();
-						++i;
-
-						if (i == 4) {
-							ammanetta(attacked);
-							attacker.sendMessage(attacked.getName() + " ammanettato.");
-							attacked.getPlayer().sendMessage("Sei stato ammanettato.");
-						} else {
-							if (!(posizione.getBlockX() == attacked.getLocation().getBlockX()
-									&& posizione.getBlockZ() == attacked.getLocation().getBlockZ())) {
-								attacker.sendMessage("Non sei riuscito ad ammanettare " + attacked.getName());
-								cancel();
-							}
-						}
-					}
-				}.runTaskTimer(plugin_istance, 0L, 10L);
+				ammanetta(attacked);
+				attacker.sendMessage(attacked.getName() + " ammanettato.");
+				attacked.getPlayer().sendMessage("Sei stato ammanettato.");
 
 				return true;
 			}
