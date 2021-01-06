@@ -1,0 +1,24 @@
+package item;
+
+import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
+
+public class WatchManager {
+
+	public static ItemStack manette;
+
+	public static void init() {
+		create_manette();
+	}
+
+	private static void create_manette() {
+		ItemStack item = new ItemStack(Material.WATCH, 1);
+		ItemMeta meta = item.getItemMeta();
+
+		meta.setDisplayName("§7§lManette");
+
+		item.setItemMeta(meta);
+		manette = item;
+	}
+}
