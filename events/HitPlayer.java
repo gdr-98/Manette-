@@ -43,6 +43,7 @@ public class HitPlayer implements Listener {
 	private static void libera(Player attacked, UUID uuid) {
 
 		int food = map1.get(uuid);
+		attacked.getPlayer().removePotionEffect(PotionEffectType.SLOW);
 		attacked.setFoodLevel(food);
 		map1.remove(uuid);
 	}
@@ -107,7 +108,6 @@ public class HitPlayer implements Listener {
 
 				if (map1.containsKey(uuid)) {
 					libera(attacked, uuid);
-					attacked.getPlayer().removePotionEffect(PotionEffectType.SLOW);
 					attacker.sendMessage("Hai liberato " + attacked.getName() + " dalle manette.");
 					attacked.getPlayer().sendMessage("Sei libero dalle manette.");
 				}
@@ -169,7 +169,6 @@ public class HitPlayer implements Listener {
 
 				libera(attacked, uuid);
 
-				attacked.getPlayer().removePotionEffect(PotionEffectType.SLOW);
 				attacked.getPlayer().sendMessage("Sei libero dalle manette.");
 			}
 
