@@ -26,7 +26,7 @@ import main.Manette;
 public class HitPlayer implements Listener {
 
 	private static HashMap<UUID, Integer> map1 = new HashMap<UUID, Integer>();
-
+	private boolean trying = false;
 	private Manette plugin_istance;
 
 	public HitPlayer(Manette plugin) {
@@ -54,6 +54,9 @@ public class HitPlayer implements Listener {
 	 */
 	@EventHandler
 	public boolean onPlayerRightClick(PlayerInteractAtEntityEvent event) {
+		
+		if (trying)
+			return true;
 
 		Player attacker = event.getPlayer();
 
@@ -64,6 +67,8 @@ public class HitPlayer implements Listener {
 			Player attacked = (Player) event.getRightClicked();
 
 			if (!(attacked.hasPotionEffect(PotionEffectType.SLOW))) {
+				
+				trying = true;
 
 				Location posizione = attacked.getLocation();
 
@@ -81,10 +86,12 @@ public class HitPlayer implements Listener {
 							ammanetta(attacked);
 							attacker.sendMessage(attacked.getName() + " ammanettato.");
 							attacked.getPlayer().sendMessage("Sei stato ammanettato.");
+							trying = false;
 						} else {
 							if (!(posizione.getBlockX() == attacked.getLocation().getBlockX()
 									&& posizione.getBlockZ() == attacked.getLocation().getBlockZ())) {
 								attacker.sendMessage("Non sei riuscito ad ammanettare " + attacked.getName());
+								trying = false;
 								cancel();
 							}
 						}
